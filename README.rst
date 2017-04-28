@@ -25,3 +25,12 @@ Example usage
   label += Command.label_end()
 
   send_to_printer(label)
+
+Running tests
+-------------
+
+In the base directory, run the following:
+
+.. code:: bash
+
+  python -m unittest discover -s tests
