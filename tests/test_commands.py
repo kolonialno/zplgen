@@ -36,7 +36,7 @@ class CommandsTestCase(TestCase):
 
         expected_command = (
             '^FO0,0' '^FD' + data + '^FS'
-        )
+        ).encode('cp1252')
 
         minimal_field = Command.field(data)
 
@@ -64,7 +64,7 @@ class CommandsTestCase(TestCase):
             invert +
             '^FD{}'.format(data) +
             '^FS'
-        )
+        ).encode('cp1252')
 
         maximal_field = Command.field(
             data, x=x, y=y,
@@ -86,7 +86,7 @@ class CommandsTestCase(TestCase):
         width = '100'
         expected_trimmed_command = (
             '^FB' + width
-        )
+        ).encode('cp1252')
 
         trimmed_command = Command.block(width)
 
@@ -98,7 +98,7 @@ class CommandsTestCase(TestCase):
 
         expected_untrimmed_command = (
             '^FB{},{},{},{},{}'.format(width, *extra_args)
-        )
+        ).encode('cp1252')
 
         untrimmed_command = Command.block(width, *extra_args)
 

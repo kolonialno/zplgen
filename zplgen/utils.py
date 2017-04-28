@@ -12,13 +12,25 @@ def zpl_bool(value):
         return 'N'
 
 
+def ensure_bytes(cmd):
+    "Ensures that the given command consists of cp1252-encoded bytes."
+
+    if type(cmd) == bytes:
+        return cmd
+
+    if type(cmd) == text:
+        return cmd.encode('cp1252')
+
+    raise TypeError('cmd must be either a str or a bytes object')
+
+
 def concat_commands(*commands):
     """
     Convenience method for concatenating a set of commands, ensuring that
     falsy ones are omitted.
     """
 
-    return b''.join([cmd for cmd in commands if cmd])
+    return b''.join([ensure_bytes(cmd) for cmd in commands if cmd])
 
 
 def is_significant_arg(arg):

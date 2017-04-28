@@ -43,18 +43,13 @@ class Command(bytes):
         """
 
         command_type = cls.get_command_type(options)
-        command_args = concat_args(args)
+        command_args = concat_args(args).encode(cls.ENCODING)
 
-        obj = cls.to_bytes(
+        obj = (
             command_type +
-            command_name +
+            command_name.encode(cls.ENCODING) +
             command_args
         )
-
-        # Attach command metadata to returned object
-        obj.command_type = command_type
-        obj.command_name = command_name
-        obj.command_args = command_args
 
         return obj
 
