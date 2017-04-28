@@ -31,7 +31,7 @@ class Command(bytes):
     BARCODE_EAN = 'BE'
     BARCODE_FIELD_DEFAULT = 'BY'
 
-    def __new__(cls, name, *args, **options):
+    def __new__(cls, command_name, *args, **options):
         """
         Constructor for a command returning bytes in an acceptable encoding.
 
@@ -47,11 +47,21 @@ class Command(bytes):
 
         options.setdefault('encoding', cls.ENCODING)
 
-        return cls.to_bytes(
-            cls.get_command_type(options) +
-            name +
-            concat_args(args)
+        command_type = cls.get_command_type(options)
+        command_args = concat_args(args)
+
+        obj = cls.to_bytes(
+            command_type +
+            command_name +
+            command_args
         )
+
+        # Attach command metadata to the returned bytes instance
+        obj.command_type = command_type
+        obj.command_name = command_name
+        obj.command_args = command_args
+
+        return obj
 
     ######################
     # Command primitives #
