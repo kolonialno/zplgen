@@ -51,7 +51,7 @@ class Command(bytes):
             command_args
         )
 
-        # Attach command metadata to the returned bytes instance
+        # Attach command metadata to returned object
         obj.command_type = command_type
         obj.command_name = command_name
         obj.command_args = command_args
@@ -245,7 +245,7 @@ class Command(bytes):
         return text(data).encode(cls.ENCODING)
 
 
-class Font(bytes):
+class Font(text):
     """
     Utility object for defining fonts, then scaling them in later use.
 
@@ -264,13 +264,17 @@ class Font(bytes):
 
     def __new__(cls, name, height=30, width=None, orientation=''):
 
-        # The returned object is a compiled font command
-        obj = bytes.__new__(cls, cls.as_command(
+        cmd = cls.as_command(
             name,
             height=height,
             width=width,
             orientation=orientation,
-        ))
+        )
+
+        # The returned object is a compiled font command as a string.
+        obj = text.__new__(
+            cls, cmd.decode(Command.ENCODING)
+        )
 
         # Attach the properties for use in `with_props`
         obj.name = name

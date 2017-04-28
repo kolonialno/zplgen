@@ -115,6 +115,7 @@ class FontTestCase(TestCase):
 
     def test_str(self):
         "Tests that the string representation uses the default height/width."
+        self.assertEqual(self.font, '^A0N,3,4')
         self.assertEqual(str(self.font), '^A0N,3,4')
 
     def test_call(self):
