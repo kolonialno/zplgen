@@ -20,13 +20,13 @@ class Command(bytes):
     FIELD_ORIGIN = 'FO'
     FIELD_SEPARATOR = 'FS'
 
+    FONT = 'A'
+
     GRAPHIC_CIRCLE = 'GC'
 
     LABEL_END = 'XZ'
     LABEL_HOME = 'LH'
     LABEL_START = 'XA'
-
-    FONT = 'A'
 
     BARCODE_EAN = 'BE'
     BARCODE_FIELD_DEFAULT = 'BY'
@@ -40,12 +40,7 @@ class Command(bytes):
             command_type
                 Either Command.TYPE_FORMAT or Command.TYPE_CONTROL.
                 (Defaults to Command.TYPE_FORMAT.)
-
-            encoding
-                The encoding to use for the returned bytes.
         """
-
-        options.setdefault('encoding', cls.ENCODING)
 
         command_type = cls.get_command_type(options)
         command_args = concat_args(args)
