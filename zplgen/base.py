@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+from builtins import str as text
+
 from .utils import concat_args, concat_commands, zpl_bool
 
 
@@ -16,6 +19,8 @@ class Command(bytes):
     FIELD_INVERT = 'FR'
     FIELD_ORIGIN = 'FO'
     FIELD_SEPARATOR = 'FS'
+
+    GRAPHIC_CIRCLE = 'GC'
 
     LABEL_END = 'XZ'
     LABEL_HOME = 'LH'
@@ -84,6 +89,14 @@ class Command(bytes):
     def field_separator(cls):
         "Must be placed between separate field definitions."
         return cls(cls.FIELD_SEPARATOR)
+
+    @classmethod
+    def graphic_circle(cls, x, y, diameter=50, border=3, color='B'):
+        return concat_commands(
+            cls.field_origin(x, y),
+            cls(cls.GRAPHIC_CIRCLE, diameter, border, color),
+            cls.field_separator(),
+        )
 
     @classmethod
     def label_end(cls):
@@ -224,34 +237,60 @@ class Command(bytes):
         Encodes the given data in an encoding understood by the printer.
         """
 
-        return unicode(data).encode(cls.ENCODING)
+        return text(data).encode(cls.ENCODING)
 
 
-class Font(object):
+class Font(bytes):
     """
     Utility object for defining fonts, then scaling them in later use.
+
+    Use in the following way:
+
+        # Create a default font and a scaled variation
+        font_default = Font('T', height=20, width=15)
+        font_header = font_default(50, 50)
+
+        # Pass as font parameter
+        header = Command.field('Header',
+            font=font_header)
+        body = Command.field('Body', y=header_font.height + 10,
+            font=font_default)
     """
 
-    def __init__(
-            self, name, default_height=30,
-            default_width=None, orientation=''):
+    def __new__(cls, name, height=30, width=None, orientation=''):
 
-        self.name = name
-        self.default_height = default_height
-        self.default_width = default_width
-        self.orientation = orientation
-
-    def scaled(self, height, width=None):
-        """
-        Returns the current font, scaled to the given height and width.
-        """
-
-        return self.as_command(
-            name=self.name,
+        # The returned object is a compiled font command
+        obj = bytes.__new__(cls, cls.as_command(
+            name,
             height=height,
             width=width,
-            orientation=self.orientation,
-        )
+            orientation=orientation,
+        ))
+
+        # Attach the properties for use in `with_props`
+        obj.name = name
+        obj.height = height
+        obj.width = width
+        obj.orientation = orientation
+
+        return obj
+
+    def with_props(self, **props):
+        """
+        Returns a modified version of current font, scaled to the given height
+        and width.
+        """
+
+        # Default known props to the same as self
+        props.setdefault('name', self.name)
+        props.setdefault('height', self.height)
+        props.setdefault('width', self.width)
+        props.setdefault('orientation', self.orientation)
+
+        return self.__class__(**props)
+
+    def __call__(self, height=None, width=None, **kwargs):
+        return self.with_props(height=height, width=width, **kwargs)
 
     @staticmethod
     def as_command(name, height, width, orientation):
@@ -265,9 +304,3 @@ class Font(object):
             width=width,
             orientation=orientation,
         )
-
-    def __call__(self, *args, **kwargs):
-        return self.scaled(*args, **kwargs)
-
-    def __str__(self):
-        return self.scaled(self.default_height, self.default_width)

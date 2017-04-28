@@ -1,3 +1,6 @@
+from builtins import str as text
+
+
 def zpl_bool(value):
     """
     Because ZPL encodes booleans as Y and N.
@@ -52,7 +55,7 @@ def concat_args(args):
     # Trailing insignificant args can be clipped
     significant_args = clip_insignificant_args(args)
 
-    # Cast args to unicode strings before returning
-    encoded_args = [unicode(arg) for arg in significant_args]
+    # Cast args to text before returning
+    encoded_args = [text(arg) for arg in significant_args]
 
     return u','.join(encoded_args)
