@@ -51,7 +51,7 @@ class CommandsTestCase(TestCase):
         data = '123'
         x = 12
         y = 13
-        font = '^A0,10,'
+        font = Font('0', 10)
         block = '^FB200,1'
         barcode = '^BE3,1'
         invert = '^FR'

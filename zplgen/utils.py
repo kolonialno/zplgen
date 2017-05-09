@@ -15,10 +15,10 @@ def zpl_bool(value):
 def ensure_bytes(cmd):
     "Ensures that the given command consists of cp1252-encoded bytes."
 
-    if type(cmd) == bytes:
+    if isinstance(cmd, bytes):
         return cmd
 
-    if type(cmd) == text:
+    if isinstance(cmd, text):
         return cmd.encode('cp1252')
 
     raise TypeError('cmd must be either a str or a bytes object')
