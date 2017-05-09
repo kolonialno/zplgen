@@ -8,6 +8,7 @@ from codecs import open
 
 # Publish to Pypi
 if sys.argv[-1] == 'publish':
+    os.system('rm -r dist/')
     os.system('python setup.py sdist')
     os.system('python setup.py bdist_wheel')
     os.system('twine upload dist/* -r pypi')
