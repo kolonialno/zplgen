@@ -1,6 +1,16 @@
+import os
+import sys
+
 from setuptools import setup
 from codecs import open
 from os import path
+
+# Publish to Pypi
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist')
+    os.system('python setup.py bdist_wheel')
+    os.system('twine upload dist/*')
+    sys.exit()
 
 here = path.abspath(path.dirname(__file__))
 
