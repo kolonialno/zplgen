@@ -9,7 +9,7 @@ from os import path
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist')
     os.system('python setup.py bdist_wheel')
-    os.system('twine upload dist/*')
+    os.system('twine upload dist/* -r pypi')
     sys.exit()
 
 here = path.abspath(path.dirname(__file__))
