@@ -1,9 +1,10 @@
 import os
 import sys
 
+from zplgen import __version__
 from setuptools import setup
+
 from codecs import open
-from os import path
 
 # Publish to Pypi
 if sys.argv[-1] == 'publish':
@@ -12,18 +13,15 @@ if sys.argv[-1] == 'publish':
     os.system('twine upload dist/* -r pypi')
     sys.exit()
 
-here = path.abspath(path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
-
-with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
-    version = f.read().strip()
 
 setup(
     name='zplgen',
-    version=version,
+    version=__version__,
 
     description='A library to aid in generating ZPL2 code.',
     long_description=long_description,
