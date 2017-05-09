@@ -1,6 +1,9 @@
 zplgen
 ======
 
+.. image:: https://travis-ci.org/kolonialno/zplgen.svg?branch=master
+    :target: https://travis-ci.org/kolonialno/zplgen
+
 zplgen is a utility library to aid in generating ZPL2 code.
 
 The core idiom is the `Command` class, which subclasses `bytes`. Another helper is the `Font` class.

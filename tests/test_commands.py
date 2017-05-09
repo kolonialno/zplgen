@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import unicode_literals
 
 from unittest import TestCase
 
@@ -16,7 +17,7 @@ class CommandsTestCase(TestCase):
         in cp1252 and returning the command as the bytes type.
         """
 
-        data = u'håhå'
+        data = 'håhå'
 
         expected_bytes = (
             '^FO0,0' '^FD' + data + '^FS'
