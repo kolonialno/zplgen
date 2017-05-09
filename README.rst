@@ -34,3 +34,10 @@ In the base directory, run the following:
 .. code:: bash
 
   python -m unittest discover -s tests
+
+License
+-------
+
+zplgen is released under the `MIT License`_.
+
+.. _Mit License: https://opensource.org/licenses/MIT

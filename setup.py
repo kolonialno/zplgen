@@ -32,7 +32,7 @@ setup(
     author='Kolonial.no',
     author_email='tech@kolonial.no',
 
-    license='BSD',
+    license='MIT',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -45,7 +45,7 @@ setup(
         'Topic :: Software Development :: Code Generators',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
 
         # Python versions supported
         'Programming Language :: Python :: 2',
