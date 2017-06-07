@@ -28,6 +28,22 @@ class CommandsTestCase(TestCase):
         self.assertIsInstance(encoded_field, bytes)
         self.assertEqual(encoded_field, expected_bytes)
 
+    def test_field_invalid_char_handling(self):
+        """
+        Tests that characters outside the allowed cp1252 charset is handled.
+        """
+
+        data = '我爱你ćdata'
+
+        expected_bytes = (
+            '^FO0,0' '^FD' '????data' '^FS'
+        ).encode('cp1252')
+
+        encoded_field = Command.field(data)
+
+        self.assertIsInstance(encoded_field, bytes)
+        self.assertEqual(encoded_field, expected_bytes)
+
     def test_field_minimal(self):
         """
         Tests the minimal set of arguments to Command.field.

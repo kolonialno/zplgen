@@ -43,7 +43,7 @@ class Command(bytes):
         """
 
         command_type = cls.get_command_type(options)
-        command_args = concat_args(args).encode(cls.ENCODING)
+        command_args = concat_args(args).encode(cls.ENCODING, errors='replace')
 
         obj = (
             command_type +
