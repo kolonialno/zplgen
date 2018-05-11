@@ -31,6 +31,9 @@ class Command(bytes):
     BARCODE_EAN = 'BE'
     BARCODE_FIELD_DEFAULT = 'BY'
 
+    DOWNLOAD_OBJECTS = 'DYE:'
+    IMAGE_MOVE = 'IME:'
+
     def __new__(cls, command_name, *args, **options):
         """
         Constructor for a command returning bytes in an acceptable encoding.
@@ -96,6 +99,28 @@ class Command(bytes):
             cls.field_origin(x, y),
             cls(cls.GRAPHIC_CIRCLE, diameter, border, color),
             cls.field_separator(),
+        )
+
+    @classmethod
+    def download_image(cls, file_name, total_bytes, data):
+        "Downloads and stores an image"
+        return cls(
+            cls.DOWNLOAD_OBJECTS,
+            file_name,
+            'P',
+            'P',
+            total_bytes,
+            '',
+            data,
+            command_type=cls.COMMAND_TYPE_CONTROL
+        )
+
+    @classmethod
+    def print_image(cls, file_name):
+        "Prints a stored image"
+        return cls(
+            cls.IMAGE_MOVE,
+            file_name + '.PNG',
         )
 
     @classmethod
