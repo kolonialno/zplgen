@@ -22,6 +22,7 @@ class Command(bytes):
 
     FONT = 'A'
 
+    GRAPHIC_BOX = 'GB'
     GRAPHIC_CIRCLE = 'GC'
 
     LABEL_END = 'XZ'
@@ -89,6 +90,26 @@ class Command(bytes):
     def field_separator(cls):
         "Must be placed between separate field definitions."
         return cls(cls.FIELD_SEPARATOR)
+
+    @classmethod
+    def graphic_box(cls, x, y, width=None, height=None, thickness=1, color='B', r=0):
+        """
+        Graphic box.
+        R is the degree of corner rounding, such that 0 is unrounded and 8 is max rounding.
+        """
+
+        return concat_commands(
+            cls.field_origin(x, y),
+            cls(
+                cls.GRAPHIC_BOX,
+                width or thickness,
+                height or thickness,
+                thickness,
+                color,
+                r,
+            ),
+            cls.field_separator(),
+        )
 
     @classmethod
     def graphic_circle(cls, x, y, diameter=50, border=3, color='B'):
